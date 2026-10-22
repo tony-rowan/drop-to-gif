@@ -44,3 +44,7 @@ Tests use Swift Testing (`@Suite`/`@Test`/`#expect`), not XCTest, and cover `Gif
 ## Conventions
 
 User-facing strings and error messages use UK English (the bundle's development region is `en-GB`), e.g. `couldNotFinalise`.
+
+## Git
+
+Commit and push straight to `main` — this is a single-contributor repo, so don't create branches or pull requests.
