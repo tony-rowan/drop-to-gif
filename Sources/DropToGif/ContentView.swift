@@ -17,7 +17,11 @@ struct ContentView: View {
         }
         .padding(20)
         .frame(width: 460)
-        .fileImporter(isPresented: $isImporting, allowedContentTypes: [.movie], allowsMultipleSelection: true) { result in
+        .fileImporter(
+            isPresented: $isImporting,
+            allowedContentTypes: [.movie],
+            allowsMultipleSelection: true
+        ) { result in
             if case .success(let urls) = result { queue.add(urls) }
         }
     }
@@ -42,8 +46,10 @@ struct ContentView: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: 14)
-                .strokeBorder(isTargeted ? Color.accentColor : .secondary.opacity(0.5),
-                              style: StrokeStyle(lineWidth: 2, dash: [8, 6]))
+                .strokeBorder(
+                    isTargeted ? Color.accentColor : .secondary.opacity(0.5),
+                    style: StrokeStyle(lineWidth: 2, dash: [8, 6])
+                )
         )
         .dropDestination(for: URL.self) { urls, _ in
             queue.add(urls)

@@ -18,7 +18,12 @@ struct GifConverterTests {
         (AVFileType.mov, "mov")
     ])
     func convertsVideo(fileType: AVFileType, fileExtension: String) async throws {
-        let video = try await makeVideo(named: "clip.\(fileExtension)", fileType: fileType, size: CGSize(width: 640, height: 360), seconds: 2)
+        let video = try await makeVideo(
+            named: "clip.\(fileExtension)",
+            fileType: fileType,
+            size: CGSize(width: 640, height: 360),
+            seconds: 2
+        )
         let gif = GifConverter.outputURL(for: video)
 
         try await GifConverter.convert(video, to: gif, settings: GifSettings(framesPerSecond: 10, maxWidth: 320))
@@ -35,7 +40,12 @@ struct GifConverterTests {
 
     @Test("keeps the original size when no maximum width is set")
     func keepsOriginalSize() async throws {
-        let video = try await makeVideo(named: "small.mov", fileType: .mov, size: CGSize(width: 160, height: 120), seconds: 1)
+        let video = try await makeVideo(
+            named: "small.mov",
+            fileType: .mov,
+            size: CGSize(width: 160, height: 120),
+            seconds: 1
+        )
         let gif = GifConverter.outputURL(for: video)
 
         try await GifConverter.convert(video, to: gif, settings: GifSettings(framesPerSecond: 5, maxWidth: nil))
@@ -48,8 +58,13 @@ struct GifConverterTests {
 
     @Test("keeps portrait phone recordings upright")
     func rotatedVideo() async throws {
-        let video = try await makeVideo(named: "phone.mov", fileType: .mov, size: CGSize(width: 640, height: 360), seconds: 1,
-                                        transform: CGAffineTransform(rotationAngle: .pi / 2))
+        let video = try await makeVideo(
+            named: "phone.mov",
+            fileType: .mov,
+            size: CGSize(width: 640, height: 360),
+            seconds: 1,
+            transform: CGAffineTransform(rotationAngle: .pi / 2)
+        )
         let gif = GifConverter.outputURL(for: video)
 
         try await GifConverter.convert(video, to: gif, settings: GifSettings(framesPerSecond: 5, maxWidth: 180))
@@ -91,8 +106,13 @@ struct GifConverterTests {
     }
 
     /// Writes a short H.264 clip of solid colour frames that change over time.
-    private func makeVideo(named name: String, fileType: AVFileType, size: CGSize, seconds: Int,
-                           transform: CGAffineTransform = .identity) async throws -> URL {
+    private func makeVideo(
+        named name: String,
+        fileType: AVFileType,
+        size: CGSize,
+        seconds: Int,
+        transform: CGAffineTransform = .identity
+    ) async throws -> URL {
         let url = folder.appendingPathComponent(name)
         let fps: Int32 = 30
         let writer = try AVAssetWriter(outputURL: url, fileType: fileType)
